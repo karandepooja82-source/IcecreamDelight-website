@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contact 🍦 IceCreamDelight 🍨</title> 
+<style>
+    /* === Base Layout === */
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    /* === Header Styling === */
+    header {
+      background-color: #ff6f61;
+      color: white;
+      padding: 25px 10px 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.4em;
+    }
+
+    /* === Navigation Bar === */
+    nav {
+      margin-top: 8px;
+    }
+
+    nav a {
+      margin: 0 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1em;
+      padding-bottom: 4px;
+      border-bottom: 3px solid transparent;
+      transition: border-bottom-color 0.3s;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    nav a.active {
+      border-bottom-color: #fff;
+    }
+
+    /* === Main Content Container === */
+    .container {
+      padding: 20px 5%;
+      max-height: calc(100vh - 140px);
+      overflow-y: auto;
+    }
+
+    /* === Headings === */
+    h2 {
+      color: #ff6f61;
+      margin-bottom: 10px;
+    }
+form {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    label {
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    input, textarea {
+      width: 70%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    textarea {
+      resize: none;
+      height: 70px;
+    }
+
+  button {
+  background-color: #ff6f61;
+  color: white;
+  padding: 10px;
+  width: 200px; /* 👈 Set your desired width */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+    button:hover {
+      background-color: #ff3b2e;
+    }
+
+    .address-box {
+      background-color: #fff0e8;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    @media (max-height: 500px) {
+      body {
+        overflow-y: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ✅ Header section was missing -->
+  <header>
+    <h1>🍦 IceCreamDelight 🍨</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="order.html">Order</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div>
+      <h2>Contact Us</h2>
+      <form>
+        <label>Name:</label>
+        <input type="text" name="name" required />
+
+        <label>Email:</label>
+        <input type="email" name="email" required />
+
+        <label>Message:</label>
+        <textarea name="message" required></textarea>
+
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+
+    <div class="address-box">
+      <strong>Our Address:</strong><br />
+      IceCreamDelight Shop<br />
+      142 Sweet Street, Flavor Heights<br />
+      Near Chill Café, Creamy Town - 400015<br />
+      Maharashtra, India
+    </div>
+  </div>
+</body>
+</html>

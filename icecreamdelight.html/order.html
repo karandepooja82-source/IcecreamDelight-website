@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order - 🍦 IceCreamDelight 🍨</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #ff6f61;
+      color: white;
+      padding: 25px 10px 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.4em;
+    }
+    nav {
+      margin-top: 8px;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1em;
+      padding-bottom: 4px;
+      border-bottom: 3px solid transparent;
+      transition: border-bottom-color 0.3s;
+    }
+    nav a.active {
+      border-bottom-color: #fff;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h2, h3 {
+      color: #ff6f61;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+    }
+    input[type="text"], input[type="tel"], textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 1em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #ff6f61;
+      color: white;
+    }
+    input[type="number"] {
+      width: 60px;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      text-align: center;
+    }
+    #grandTotal {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: right;
+      font-size: 1.2em;
+      color: #ff6f61;
+    }
+    button {
+      background: #ff6f61;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1em;
+      margin-top: 25px;
+      display: block;
+      width: 100%;
+    }
+    button:hover {
+      background: #ff3b2e;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🍦 IceCreamDelight 🍨</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="menu.html">Menu</a>
+    <a href="order.html" class="active">Order</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>Your Order Details</h2>
+
+  <label for="name">Name:</label>
+  <input type="text" id="name" required />
+
+  <label for="contact">Contact Number:</label>
+  <input type="tel" id="contact" placeholder="e.g. 9876543210" required pattern="[0-9]{10}" />
+
+  <label for="address">Address:</label>
+  <textarea id="address" rows="3" required></textarea>
+
+  <h3>Items in Cart</h3>
+  <table>
+    <thead>
+      <tr><th>Item</th><th>Price (₹)</th><th>Quantity</th><th>Total (₹)</th></tr>
+    </thead>
+    <tbody id="itemsTableBody">
+      <!-- Items will appear here -->
+    </tbody>
+  </table>
+
+  <div id="grandTotal">Grand Total: ₹0</div>
+
+  <button id="confirmOrderBtn">Confirm Order</button>
+</div>
+
+<script>
+  // Load data from localStorage
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  let customerName = localStorage.getItem('customerName') || '';
+  let customerAddress = localStorage.getItem('customerAddress') || '';
+  let customerContact = localStorage.getItem('customerContact') || '';
+
+  // Fill customer inputs
+  document.getElementById('name').value = customerName;
+  document.getElementById('address').value = customerAddress;
+  document.getElementById('contact').value = customerContact;
+
+  const tbody = document.getElementById('itemsTableBody');
+  const grandTotalDiv = document.getElementById('grandTotal');
+
+  function renderCart() {
+    tbody.innerHTML = '';
+    let grandTotal = 0;
+
+    cart.forEach(item => {
+      const itemTotal = item.price * item.qty;
+      grandTotal += itemTotal;
+
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td>${item.name}</td>
+        <td>₹${item.price.toFixed(2)}</td>
+        <td>${item.qty}</td>
+        <td>₹${itemTotal.toFixed(2)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    grandTotalDiv.textContent = `Grand Total: ₹${grandTotal.toFixed(2)}`;
+  }
+
+  renderCart();
+
+  document.getElementById('confirmOrderBtn').addEventListener('click', () => {
+    // Validate inputs
+    const nameInput = document.getElementById('name').value.trim();
+    const contactInput = document.getElementById('contact').value.trim();
+    const addressInput = document.getElementById('address').value.trim();
+
+    if (!nameInput) {
+      alert('Please enter your name.');
+      return;
+    }
+
+    // Simple 10-digit number validation for contact
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(contactInput)) {
+      alert('Please enter a valid 10-digit contact number.');
+      return;
+    }
+
+    if (!addressInput) {
+      alert('Please enter your address.');
+      return;
+    }
+    if (cart.length === 0) {
+      alert('Your cart is empty. Please add items before confirming.');
+      return;
+    }
+
+    // Save updated customer info and cart to localStorage
+    localStorage.setItem('customerName', nameInput);
+    localStorage.setItem('customerContact', contactInput);
+    localStorage.setItem('customerAddress', addressInput);
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Redirect to billing page
+    window.location.href = 'billing.html';
+  });
+</script>
+
+</body>
+</html>

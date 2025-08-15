@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🍦 IceCreamDelight 🍨 - Home</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      overflow: hidden; /* ✅ no scrolling */
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #ff6f61;
+      color: white;
+      padding: 25px 10px 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.4em;
+    }
+
+    nav {
+      margin-top: 8px;
+    }
+
+    nav a {
+      margin: 0 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1em;
+      padding-bottom: 4px;
+      border-bottom: 3px solid transparent;
+      transition: border-bottom-color 0.3s;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    nav a.active {
+      border-bottom-color: #fff;
+    }
+
+    .container {
+      flex: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
+    }
+
+   .container h2 {
+  font-size: 1.8em;
+  color: #ff6f61;
+  margin: 5px 0 15px; /* 🆕 Adds top space before h2 */
+  text-align: center;
+}
+
+    .container p {
+      font-size: 1.1em;
+      color: #444;
+      margin: 10px 0 15px;
+    }
+
+    img {
+  width: 85%;               /* 🆕 Smaller than full container */
+  height: auto;             /* 🆕 Keeps aspect ratio */
+  max-height: 60vh;         /* 🆕 Avoid overflow on small screens */
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  display: block;
+  margin: 0 auto;
+}
+    footer {
+      background: #ff6f61;
+      color: white;
+      font-size: 0.9em;
+      padding: 8px 0;
+      text-align: center;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🍦 IceCreamDelight 🍨</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="order.html">Order</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Delicious Ice Creams for Every Sweet Tooth 🍨</h2>
+    <p>Freshly made flavors that melt your heart, not just your cone. 🍦</p>
+    <img src="IMAGES/Capture 23.JPG" alt="Our Ice Cream Shop" />
+  </div>
+
+  <footer>
+    &copy; 2025 IceCreamDelight. All Rights Reserved. 🍨
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const currentPage = window.location.pathname.split('/').pop();
+      const navLinks = document.querySelectorAll('nav a');
+      navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if(linkPage === currentPage || (linkPage === 'index.html' && currentPage === '')) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

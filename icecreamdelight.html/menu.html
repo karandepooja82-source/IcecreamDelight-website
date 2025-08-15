@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Menu - 🍦 IceCreamDelight 🍨</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #ff6f61;
+      color: white;
+      padding: 25px 10px 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.4em;
+    }
+
+    nav {
+      margin-top: 8px;
+    }
+
+    nav a {
+      margin: 0 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1em;
+      padding-bottom: 4px;
+      border-bottom: 3px solid transparent;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    nav a.active {
+      border-bottom-color: #fff;
+    }
+
+    .container {
+      padding: 20px 5%;
+      max-height: calc(100vh - 140px);
+      overflow-y: auto;
+    }
+
+    h2 {
+      color: #ff6f61;
+      margin-bottom: 10px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .card {
+      width: 150px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      background-color: white;
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #ff6f61;
+      color: white;
+      padding: 4px 8px;
+      margin: 5px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 13px;
+    }
+
+    button:hover {
+      background-color: #ff3b2e;
+    }
+
+    #cart-items {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid #ffddd2;
+      padding: 6px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #ffe2db;
+    }
+
+    .nav-link {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #ff6f61;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8em;
+      }
+      nav a {
+        margin: 0 8px;
+        font-size: 0.95em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🍦 IceCreamDelight 🍨</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="menu.html" class="active">Menu</a>
+    <a href="order.html">Order</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>Our Ice Cream Flavors</h2>
+  <p class="note"><strong>Note:</strong> Quantity means 1 = 100gm</p>
+
+  <div class="cards">
+    <div class="card">
+      <img src="IMAGES/vanilla.JPEG" alt="Vanilla">
+      <h3>Vanilla</h3>
+      <p>₹50</p>
+      <button onclick="addToCart('Vanilla', 50)">Add</button>
+    </div>
+    <div class="card">
+      <img src="IMAGES/chocolate.JPG" alt="Chocolate">
+      <h3>Chocolate</h3>
+      <p>₹60</p>
+      <button onclick="addToCart('Chocolate', 60)">Add</button>
+    </div>
+    <div class="card">
+      <img src="IMAGES/strawberry.JPEG" alt="Strawberry">
+      <h3>Strawberry</h3>
+      <p>₹55</p>
+      <button onclick="addToCart('Strawberry', 55)">Add</button>
+    </div>
+    <div class="card">
+      <img src="IMAGES/mango.JPEG" alt="Mango">
+      <h3>Mango</h3>
+      <p>₹65</p>
+      <button onclick="addToCart('Mango', 65)">Add</button>
+    </div>
+    <div class="card">
+      <img src="IMAGES/pistachio.JPEG" alt="Pistachio">
+      <h3>Pistachio</h3>
+      <p>₹70</p>
+      <button onclick="addToCart('Pistachio', 70)">Add</button>
+    </div>
+    <div class="card">
+      <img src="IMAGES/coffee.JPEG" alt="Coffee">
+      <h3>Coffee</h3>
+      <p>₹75</p>
+      <button onclick="addToCart('Coffee', 75)">Add</button>
+    </div>
+  </div>
+
+  <div id="cart-items"></div>
+
+  <a class="nav-link" href="order.html">Go to Order Page</a>
+</div>
+
+<script>
+  let cart = [];
+
+  function addToCart(name, price) {
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.qty += 1;
+    } else {
+      cart.push({ name, price, qty: 1 });
+    }
+    saveAndRender();
+  }
+
+  function saveAndRender() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+  }
+
+  function renderCart() {
+    const cartDiv = document.getElementById("cart-items");
+    cartDiv.innerHTML = "";
+
+    if (cart.length === 0) {
+      return;
+    }
+
+    const table = document.createElement("table");
+    table.innerHTML = `
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+    `;
+
+    cart.forEach((item, index) => {
+      const total = item.qty * item.price;
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${item.name}</td>
+        <td>
+          <button onclick="updateQty(${index}, -1)">−</button>
+          ${item.qty}
+          <button onclick="updateQty(${index}, 1)">+</button>
+        </td>
+        <td>₹${item.price}</td>
+        <td>₹${total}</td>
+      `;
+      table.appendChild(row);
+    });
+
+    cartDiv.appendChild(table);
+  }
+
+  function updateQty(index, change) {
+    if (!cart[index]) return;
+    cart[index].qty += change;
+    if (cart[index].qty <= 0) {
+      cart.splice(index, 1);
+    }
+    saveAndRender();
+  }
+
+  window.onload = function () {
+    const stored = localStorage.getItem('cart');
+    if (stored) cart = JSON.parse(stored);
+    renderCart();
+  };
+</script>
+</body>
+</html>

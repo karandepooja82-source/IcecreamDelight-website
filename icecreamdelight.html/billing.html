@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Billing - IceCreamDelight</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff8f0;
+      color: #333;
+    }
+
+    header {
+      background: #ff6f61;
+      color: white;
+      padding: 25px 10px 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.4em;
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1em;
+      padding-bottom: 4px;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    nav a.active {
+      border-bottom-color: #fff;
+    }
+
+    .container {
+      width: 90%;
+      margin: auto;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    h2, h3 {
+      color: #ff6f61;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background: #ff6f61;
+      color: white;
+    }
+
+    #deliveryConfirmation {
+      margin-top: 30px;
+      padding: 25px;
+      border: 2px solid #ff6f61;
+      border-radius: 8px;
+      background-color: #fff0f0;
+      color: #b33a3a;
+      font-weight: bold;
+      font-size: 1.3em;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    button {
+      background: #ff6f61;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background: #ff3b2e;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🍦 IceCreamDelight 🍨</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="menu.html">Menu</a>
+    <a href="order.html">Order</a>
+    <a href="billing.html" class="active">Billing</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<div class="container" id="billingContainer">
+  <h2>Customer Details</h2>
+  <p><strong>Name:</strong> <span id="name"></span></p>
+  <p><strong>Contact Number:</strong> <span id="contact"></span></p>
+  <p><strong>Address:</strong> <span id="address"></span></p>
+
+  <h2>Ordered Items</h2>
+  <table id="billTable">
+    <tr>
+      <th>Item</th><th>Price</th><th>Quantity</th><th>Total</th>
+    </tr>
+  </table>
+
+  <h3>Grand Total: ₹<span id="grandTotal">0</span></h3>
+
+  <button id="confirmDeliveryBtn">Confirm Delivery</button>
+</div>
+
+<div id="deliveryConfirmation" style="display:none;"></div>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  let name = localStorage.getItem('customerName') || '';
+  let address = localStorage.getItem('customerAddress') || '';
+  let contact = localStorage.getItem('customerContact') || '';
+
+  document.getElementById('name').innerText = name;
+  document.getElementById('address').innerText = address;
+  document.getElementById('contact').innerText = contact;
+
+  let table = document.getElementById('billTable');
+  let total = 0;
+  cart.forEach(item => {
+    let itemTotal = item.price * item.qty;
+    total += itemTotal;
+    table.innerHTML += `<tr>
+      <td>${item.name}</td>
+      <td>₹${item.price.toFixed(2)}</td>
+      <td>${item.qty}</td>
+      <td>₹${itemTotal.toFixed(2)}</td>
+    </tr>`;
+  });
+  document.getElementById('grandTotal').innerText = total.toFixed(2);
+
+  const confirmBtn = document.getElementById('confirmDeliveryBtn');
+  const deliveryDiv = document.getElementById('deliveryConfirmation');
+  const billingContainer = document.getElementById('billingContainer');
+
+  confirmBtn.addEventListener('click', () => {
+    // Generate random delivery number (6 digits)
+    const deliveryNumber = Math.floor(100000 + Math.random() * 900000);
+
+    // Hide billing details container
+    billingContainer.style.display = 'none';
+
+    // Show delivery confirmation message only
+    deliveryDiv.innerHTML = `
+      🎉 <strong>Delivery Confirmed!</strong> 🎉<br><br>
+      Thank you, <strong>${name}</strong>.<br>
+      Your order will be delivered to:<br>
+      <em>${address}</em><br><br>
+      Contact Number: <strong>${contact}</strong><br><br>
+      Your delivery number is: <strong>#${deliveryNumber}</strong><br>
+      Please keep this number for reference.
+    `;
+    deliveryDiv.style.display = 'block';
+
+    // Clear localStorage data
+    localStorage.removeItem('cart');
+    localStorage.removeItem('customerName');
+    localStorage.removeItem('customerAddress');
+    localStorage.removeItem('customerContact');
+
+    // Disable confirm button (not visible anymore because container hidden)
+    confirmBtn.disabled = true;
+  });
+
+  // Highlight current page in nav
+  const currentPage = window.location.pathname.split('/').pop();
+  document.querySelectorAll('nav a').forEach(link => {
+    if (link.getAttribute('href') === currentPage) {
+      link.classList.add('active');
+    }
+  });
+</script>
+
+</body>
+</html>

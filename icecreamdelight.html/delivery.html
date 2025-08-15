@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Billing - 🍦 IceCreamDelight 🍨</title>
+  
+  <style>
+    /* === Base Layout === */
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    /* === Header Styling === */
+    header {
+      background-color: #ff6f61;
+      color: white;
+      padding: 25px 10px 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.4em;
+    }
+
+    /* === Navigation Bar === */
+    nav {
+      margin-top: 8px;
+    }
+
+    nav a {
+      margin: 0 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1em;
+      padding-bottom: 4px;
+      border-bottom: 3px solid transparent;
+      transition: border-bottom-color 0.3s;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    nav a.active {
+      border-bottom-color: #fff;
+    }
+
+    /* === Main Content Container === */
+    .container {
+      padding: 20px 5%;
+      max-height: calc(100vh - 140px);
+      overflow-y: auto;
+    }
+
+    /* === Headings === */
+    h2 {
+      color: #ff6f61;
+      margin-bottom: 10px;
+    }
+
+    /* === Table Styling === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background: #ff6f61;
+      color: white;
+    }
+
+    /* === Button Styling === */
+    button {
+      background: #ff6f61;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    button:hover {
+      background: #ff3b2e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🍦 IceCreamDelight 🍨</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="order.html" class="active">Order</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Customer Details</h2>
+    <p><strong>Name:</strong> <span id="name"></span></p>
+    <p><strong>Address:</strong> <span id="address"></span></p>
+
+    <h2>Ordered Items</h2>
+    <table id="billTable">
+      <tr>
+        <th>Item</th><th>Price</th><th>Quantity</th><th>Total</th>
+      </tr>
+    </table>
+
+    <h3>Grand Total: ₹<span id="grandTotal">0</span></h3>
+    <button id="okBtn">OK</button>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let name = localStorage.getItem('customerName') || '';
+    let address = localStorage.getItem('customerAddress') || '';
+    document.getElementById('name').innerText = name;
+    document.getElementById('address').innerText = address;
+
+    let table = document.getElementById('billTable');
+    let total = 0;
+    cart.forEach(item => {
+      let itemTotal = item.price * item.qty;
+      total += itemTotal;
+      table.innerHTML += `<tr>
+        <td>${item.name}</td>
+        <td>₹${item.price}</td>
+        <td>${item.qty}</td>
+        <td>₹${itemTotal}</td>
+      </tr>`;
+    });
+    document.getElementById('grandTotal').innerText = total;
+
+    document.getElementById('okBtn').addEventListener('click', () => {
+      if(cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+
+      // Generate random delivery number
+      const deliveryNumber = Math.floor(100000 + Math.random() * 900000);
+
+      // Create alert message with customer and delivery info
+      let message = `Delivery Number: ${deliveryNumber}\n\nCustomer: ${name}\nAddress: ${address}\n\nOrdered Items:\n`;
+      cart.forEach(item => {
+        message += `${item.name} - Qty: ${item.qty}, Price: ₹${item.price}\n`;
+      });
+      message += `\nGrand Total: ₹${total}`;
+
+      alert(message);
+
+      // Save delivery info to localStorage for delivery page
+      localStorage.setItem('deliveryNumber', deliveryNumber);
+      // Keep cart, name, address for delivery page as well
+
+      // Redirect to delivery page
+      window.location.href = 'delivery.html';
+    });
+  </script>
+
+</body>
+</html>
